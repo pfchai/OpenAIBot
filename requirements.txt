@@ -1,0 +1,9 @@
+Flask
+requests
+requests_toolbelt
+
+pycryptodome
+python-dotenv
+
+revChatGPT==1.2.1
+
