@@ -2,43 +2,56 @@
 
 import os
 import logging
+from logging.config import dictConfig
 
 from flask import Flask
 from flask import request, jsonify
 
-#  from .bot.feishu import FeishuBot
-from .bot.feishu_chatgpt import FeishuChatGPTBot
+from .bot.feishu import FeishuBot
+# from .bot.wework import WeworkBot
+from .bot.wework_chatgpt import WeworkChatGPTBot
 
 
-logging.basicConfig(level=logging.DEBUG)
+dictConfig({
+    'version': 1,
+    'formatters': {
+        'default': {
+            'format': '%(asctime)s - %(levelname)s - %(name)s - %(message)s',
+        }
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'level': 'DEBUG',
+            'formatter': 'default'
+        }
+    },
+    'root': {
+        'level': 'DEBUG',
+        'handlers': ['console'],
+    }
+})
 
-# logger = logging.getLogger(__name__)
 
-# formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(name)s - %(message)s')
-# stream_handler = logging.StreamHandler()
-# stream_handler.setLevel(logging.INFO)
-# stream_handler.setFormatter(formatter)
-# logger.addHandler(stream_handler)
+APP_ID = os.getenv('FEISHU_APP_ID')
+APP_SECRET = os.getenv('FEISHU_APP_SECRET')
+ENCRYPT_KEY = os.getenv('FEISHU_ENCRYPT_KEY')
 
-
-APP_ID = os.getenv('APP_ID')
-APP_SECRET = os.getenv('APP_SECRET')
-ENCRYPT_KEY = os.getenv('ENCRYPT_KEY')
-
-#  bot = FeishuBot(app_id=APP_ID, app_secret=APP_SECRET, encrypt_key=ENCRYPT_KEY)
-bot = FeishuChatGPTBot(app_id=APP_ID, app_secret=APP_SECRET, encrypt_key=ENCRYPT_KEY)
+feishu_bot = FeishuBot(app_id=APP_ID, app_secret=APP_SECRET, encrypt_key=ENCRYPT_KEY)
+wework_bot = WeworkChatGPTBot()
 
 app = Flask(__name__)
 app.config['timeout'] = 120
 app.logger.setLevel(logging.DEBUG)
 
 
-@app.route('/', methods=['GET', 'POST'])
-def hello_world():
+@app.route('/feishu', methods=['GET', 'POST'])
+def feishu_server():
     if request.method == 'POST':
-        print(request)
-        res = bot.handle(request)
-        print(res)
+        app.logger.info(request)
+        # print(request)
+        res = feishu_bot.handle(request)
+        app.logger.info(res)
         if isinstance(res, str):
             return res
         else:
@@ -47,11 +60,15 @@ def hello_world():
     return '<p>Hello, World!</p>'
 
 
-if __name__ == '__main__':
-    handler = logging.FileHandler('flask.log', encoding='UTF-8')
-    handler.setLevel(logging.DEBUG)
-    logging_format = logging.Formatter(
-        '%(asctime)s - %(levelname)s - %(filename)s - %(funcName)s - %(lineno)s - %(message)s')
-    handler.setFormatter(logging_format)
-    app.logger.addHandler(handler)
-    app.run()
+@app.route('/wework', methods=['GET', 'POST'])
+def wework_server():
+    if request.method == 'POST':
+        app.logger.info(request)
+        res = wework_bot.handle(request)
+        app.logger.info(res)
+        if isinstance(res, str):
+            return res
+        else:
+            return jsonify(res)
+    else:
+        return wework_bot.vertify_url(request)
