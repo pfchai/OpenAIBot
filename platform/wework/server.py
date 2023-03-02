@@ -37,7 +37,6 @@ class EchoServer(BaseServer):
         # msg_type = tree.find('MsgType').text
 
         resp_data = f'to_user: {to_user}, from_user: {from_user}, create_time: {create_time}, content: {content}'
-        print(resp_data)
 
         self.client.send_msg(resp_data, from_user)
         return ''
@@ -49,6 +48,9 @@ class EchoServer(BaseServer):
             return 'None msg'
 
         tree = ET.fromstring(msg)
+        if not tree:
+            return 'None'
+
         return self.handle_p2p(tree, request)
 
 
@@ -94,4 +96,7 @@ class ChatGPTServer(BaseServer):
             return 'None msg'
 
         tree = ET.fromstring(msg)
+        if not tree:
+            return 'None'
+
         return self.handle_p2p(tree, request)
