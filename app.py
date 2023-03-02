@@ -9,7 +9,8 @@ from flask import request, jsonify
 
 from .bot.feishu import FeishuBot
 # from .bot.wework import WeworkBot
-from .bot.wework_chatgpt import WeworkChatGPTBot
+# from .bot.wework_chatgpt import WeworkChatGPTBot
+from .platform.wework.server import ChatGPTServer as WeworkChatGPTBot
 
 
 dictConfig({
@@ -71,4 +72,4 @@ def wework_server():
         else:
             return jsonify(res)
     else:
-        return wework_bot.vertify_url(request)
+        return wework_bot.client.vertify_url(request)
