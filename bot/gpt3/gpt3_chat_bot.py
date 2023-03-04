@@ -12,7 +12,7 @@ from .prompt import Prompt
 from .conversation_manager import ConversationManager
 
 
-ENGINE = os.environ.get('GPT_ENGINE') or 'text-davinci-003'
+ENGINE = os.getenv('GPT_ENGINE') or 'text-davinci-003'
 ENCODER = tiktoken.get_encoding('gpt2')
 
 
@@ -24,8 +24,8 @@ logger.setLevel(logging.DEBUG)
 class GPT3ChatBot():
 
     def __init__(self, api_key: str = None, engine: str = None, proxy: str = None):
-        openai.api_key = api_key or os.environ.get("OPENAI_API_KEY")
-        openai.proxy = proxy or os.environ.get("OPENAI_API_PROXY")
+        openai.api_key = api_key or os.getenv('OPENAI_API_KEY')
+        openai.proxy = proxy or os.getenv("OPENAI_API_PROXY")
         self.engine = engine or ENGINE
 
         self.max_token = 4000
@@ -84,7 +84,6 @@ class GPT3ChatBot():
         if conversation_id is not None:
             history.append([query, response])
             self.conversation_manager.add_conversation(conversation_id, history)
-
         return response
 
 

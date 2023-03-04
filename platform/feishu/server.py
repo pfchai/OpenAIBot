@@ -6,9 +6,9 @@ import json
 import logging
 
 import openai
-from revChatGPT.Official import Chatbot
 
 from .client import Client
+from ...bot.gpt3.gpt3_chat_bot import GPT3ChatBot as Chatbot
 
 
 logger = logging.getLogger(__name__)
@@ -97,8 +97,7 @@ class ChatGPTServer(BaseServer):
 
     def __init__(self):
         super().__init__()
-        self.chatbot = Chatbot(api_key=API_KEY)
-        # self.chatbot.prompt.base_prompt = ''
+        self.chatbot = Chatbot()
         self.support_image_generation = True
         self.is_valid_message = False
 
@@ -114,8 +113,7 @@ class ChatGPTServer(BaseServer):
         response = self.chatbot.ask(text, conversation_id=sender_id)
         logger.debug('chatgpt response', response)
 
-        reply_text = response['choices'][0]['text']
-        return reply_text
+        return response
 
     def process(self, message, msg_text):
         event = message['event']

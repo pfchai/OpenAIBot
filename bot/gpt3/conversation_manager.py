@@ -11,7 +11,7 @@ class ConversationManager():
         self.conversations[key] = history
 
     def get_conversation(self, key: str) -> list:
-        if key not in self.maps:
+        if key not in self.conversations:
             self.add_conversation(key)
 
         return self.conversations[key]
