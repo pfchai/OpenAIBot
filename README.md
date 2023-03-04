@@ -27,12 +27,18 @@ cp .env.example .env
 # 补充相关配置信息
 vi .env
 
-# 设置 GPT-3 模型
-export GPT_ENGINE='text-davinci-003'
-
 # 启动服务
 flask run
 
 # 指定端口，外网可用
 flask run --host 0.0.0.0 --port 8000
 ```
+
+
+# ToDos
+
+ - [x] 基于 GPT3 对话机器人
+ - [ ] 基于 ChatGPT 对话机器人
+ - [x] 支持飞书机器人
+ - [x] 支持企业微信机器人
+ - [ ] 服务启动动态配置
