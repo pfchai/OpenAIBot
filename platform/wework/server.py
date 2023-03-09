@@ -22,8 +22,8 @@ class BaseServer():
 
 
 class EchoServer(BaseServer):
-    def __init__(self):
-        self.client = Client()
+    def __init__(self, config):
+        self.client = Client(config)
 
     def handle_p2p(self, tree, request):
         """
@@ -55,9 +55,9 @@ class EchoServer(BaseServer):
 
 
 class ChatGPTServer(BaseServer):
-    def __init__(self):
-        self.client = Client()
-        self.chatgpt_url = os.getenv('CUSTOM_CHATGPT_URL')
+    def __init__(self, config):
+        self.client = Client(config)
+        self.chatgpt_url = config['CUSTOM_CHATGPT_URL']
 
     def ask(self, content, to_user, from_user):
         headers = {'Content-Type': 'application/json'}

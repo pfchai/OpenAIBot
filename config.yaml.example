@@ -1,0 +1,29 @@
+
+---
+name: feishu1
+platform: feishu
+bot: echo
+FEISHU_APP_ID: 
+FEISHU_APP_SECRET: 
+FEISHU_ENCRYPT_KEY: 
+
+---
+name: feishu2
+platform: feishu
+bot: chatgpt
+FEISHU_APP_ID: 
+FEISHU_APP_SECRET: 
+FEISHU_ENCRYPT_KEY: 
+
+# chatgpt 需要
+OPENAI_API_KEY: 
+
+---
+name: wework1
+platform: wework
+bot: echo
+WEWORK_TOKEN: 
+WEWORK_ENCODING_AES_KEY: 
+WEWORK_CORP_ID: 
+WEWORK_SECRET: 
+WEWORK_AGENTID: 

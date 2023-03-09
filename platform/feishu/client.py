@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import os
 import json
 import time
 import hashlib
@@ -16,11 +15,11 @@ logger = logging.getLogger(__name__)
 
 
 class Client():
-    def __init__(self):
+    def __init__(self, config):
 
-        self.app_id = os.getenv('FEISHU_APP_ID')
-        self.app_secret = os.getenv('FEISHU_APP_SECRET')
-        self.encrypt_key = os.getenv('FEISHU_ENCRYPT_KEY')
+        self.app_id = config['FEISHU_APP_ID']
+        self.app_secret = config['FEISHU_APP_SECRET']
+        self.encrypt_key = config['FEISHU_ENCRYPT_KEY']
         self.is_valid_message = False
 
         self.tenant_access_token = ''

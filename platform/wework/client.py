@@ -14,12 +14,12 @@ logger = logging.getLogger(__name__)
 
 
 class Client():
-    def __init__(self):
-        self.token = os.getenv('WEWORK_TOKEN')
-        self.encoding_aes_key = os.getenv('WEWORK_ENCODING_AES_KEY')
-        self.corp_id = os.getenv('WEWORK_CORP_ID')
-        self.secret = os.getenv('WEWORK_SECRET')
-        self.agentid = int(os.getenv('WEWORK_AGENTID'))
+    def __init__(self, config):
+        self.token = config['WEWORK_TOKEN']
+        self.encoding_aes_key = config['WEWORK_ENCODING_AES_KEY']
+        self.corp_id = config['WEWORK_CORP_ID']
+        self.secret = config['WEWORK_SECRET']
+        self.agentid = int(config['WEWORK_AGENTID'])
 
         self.access_token = ''
         self.expiry_time = time.time()

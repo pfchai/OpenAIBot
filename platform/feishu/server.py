@@ -12,8 +12,6 @@ from ...bot.gpt3.gpt3_chat_bot import GPT3ChatBot as Chatbot
 
 
 logger = logging.getLogger(__name__)
-API_KEY = os.getenv('OPENAI_API_KEY')
-openai.api_key = API_KEY
 
 
 class BaseServer():
@@ -27,10 +25,10 @@ class BaseServer():
 
 class EchoServer(BaseServer):
 
-    def __init__(self):
+    def __init__(self, config):
         self.is_valid_message = False
 
-        self.client = Client()
+        self.client = Client(config)
 
         self.message_ids = set()
 
@@ -95,13 +93,14 @@ class EchoServer(BaseServer):
 
 class ChatGPTServer(BaseServer):
 
-    def __init__(self):
+    def __init__(self, config):
         super().__init__()
-        self.chatbot = Chatbot()
+        self.chatbot = Chatbot(api_key=config['OPENAI_API_KEY'], engine=config.get('ENGINE'), proxy=config.get('PROXY'))
         self.support_image_generation = True
         self.is_valid_message = False
 
-        self.client = Client()
+        self.client = Client(config)
+        openai.api_key = config['OPENAI_API_KEY']
 
         self.message_ids = set()
 
