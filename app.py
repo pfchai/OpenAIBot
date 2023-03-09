@@ -9,6 +9,7 @@ from flask import request, jsonify
 
 from .platform.feishu import EchoServer as FeishuEchoServer
 from .platform.feishu import ChatGPTServer as FeishuChatGPTServer
+from .platform.feishu import YDLGPTServer as FeishuYDLGPTServer
 from .platform.wework import EchoServer as WeworkEchoServer
 from .platform.wework import ChatGPTServer as WeworkChatGPTServer
 
@@ -77,13 +78,15 @@ def create_bots():
         configs = yaml.load_all(f, Loader=yaml.FullLoader)
         for config in configs:
             if config['platform'] == 'feishu':
-                if config['bot'] not in ('echo', 'chatgpt'):
+                if config['bot'] not in ('echo', 'chatgpt', 'ydl_gpt'):
                     raise
 
                 if config['bot'] == 'echo':
                     feishu_bots[config['name']] = FeishuEchoServer(config)
                 if config['bot'] == 'chatgpt':
                     feishu_bots[config['name']] = FeishuChatGPTServer(config)
+                if config['bot'] == 'ydl_gpt':
+                    feishu_bots[config['name']] = FeishuYDLGPTServer(config)
 
             if config['platform'] == 'wework':
                 if config['bot'] not in ('echo', 'chatgpt'):
