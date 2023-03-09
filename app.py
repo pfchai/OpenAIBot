@@ -12,6 +12,7 @@ from .platform.feishu import ChatGPTServer as FeishuChatGPTServer
 from .platform.feishu import YDLGPTServer as FeishuYDLGPTServer
 from .platform.wework import EchoServer as WeworkEchoServer
 from .platform.wework import ChatGPTServer as WeworkChatGPTServer
+from .platform.wework import YDLGPTServer as WeworkYDLGPTServer
 
 
 dictConfig({
@@ -89,13 +90,15 @@ def create_bots():
                     feishu_bots[config['name']] = FeishuYDLGPTServer(config)
 
             if config['platform'] == 'wework':
-                if config['bot'] not in ('echo', 'chatgpt'):
+                if config['bot'] not in ('echo', 'chatgpt', 'ydl_gpt'):
                     raise
 
                 if config['bot'] == 'echo':
                     wework_bots[config['name']] = WeworkEchoServer(config)
                 if config['bot'] == 'chatgpt':
                     wework_bots[config['name']] = WeworkChatGPTServer(config)
+                if config['bot'] == 'ydl_gpt':
+                    feishu_bots[config['name']] = WeworkYDLGPTServer(config)
 
     return feishu_bots, wework_bots
 

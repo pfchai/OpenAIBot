@@ -224,7 +224,7 @@ class YDLGPTServer(BaseServer):
 
         chatgpt_res_text = '获取chatgpt回复消息失败'
         try:
-            chatgpt_res_text = self.chatbot.ask(msg_text, sender_id=sender_id)
+            chatgpt_res_text = self.chatbot.ask(msg_text, sender_id=sender_id, chat_id=msg['chat_id'])
         except Exception as e:
             logger.error(e)
             self.client.reply_text(msg['message_id'], msg['chat_id'], '服务出了点问题，请重试')
