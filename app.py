@@ -42,7 +42,7 @@ def create_server(app, feishu_bots, wework_bots):
         def feishu_server(name):
             if name not in feishu_bots:
                 return 'url error'
-            
+
             if request.method == 'POST':
                 app.logger.info(request)
                 res = feishu_bots[name].handle(request)
@@ -53,13 +53,13 @@ def create_server(app, feishu_bots, wework_bots):
                     return jsonify(res)
 
             return '<p>Hello, World!</p>'
-    
+
     if wework_bots:
         @app.route('/wework/<name>', methods=['GET', 'POST'])
         def wework_server(name):
             if name not in wework_bots:
                 return 'url error'
-            
+
             if request.method == 'POST':
                 app.logger.info(request)
                 res = wework_bots[name].handle(request)
@@ -98,7 +98,7 @@ def create_bots():
                 if config['bot'] == 'chatgpt':
                     wework_bots[config['name']] = WeworkChatGPTServer(config)
                 if config['bot'] == 'ydl_gpt':
-                    feishu_bots[config['name']] = WeworkYDLGPTServer(config)
+                    wework_bots[config['name']] = WeworkYDLGPTServer(config)
 
     return feishu_bots, wework_bots
 
