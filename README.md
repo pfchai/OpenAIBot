@@ -22,10 +22,10 @@ pip install -r requirements.txt
 ```
 # 配置
 
-cp .env.example .env
+cp config.yaml.example config.yaml
 
 # 补充相关配置信息
-vi .env
+vi config.yaml
 
 # 启动服务
 flask run
@@ -41,4 +41,4 @@ flask run --host 0.0.0.0 --port 8000
  - [ ] 基于 ChatGPT 对话机器人
  - [x] 支持飞书机器人
  - [x] 支持企业微信机器人
- - [ ] 服务启动动态配置
+ - [x] 服务支持配置多个机器人
